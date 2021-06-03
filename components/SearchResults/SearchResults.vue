@@ -1,12 +1,12 @@
 <template>
   <div class="md:container md:mx-auto p-4">
     <SearchResultsList />
-    <ui-modal v-show="isModalVisible" @close="closeModal">
+    <UiModal v-show="isModalVisible" @close="closeModal">
       <template v-slot:header>Modal header</template>
       <template v-slot:body>
         <div class="mb-10 mx-12">Modal body</div>
       </template>
-    </ui-modal>
+    </UiModal>
   </div>
 </template>
 
