@@ -38,5 +38,14 @@ export default {
       items,
     }
   },
+  computed: {
+    properties() {
+      return this.$store.state.properties
+    },
+  },
+  mounted() {
+    // eslint-disable-next-line no-console
+    console.log('properties from store', this.properties)
+  },
 }
 </script>

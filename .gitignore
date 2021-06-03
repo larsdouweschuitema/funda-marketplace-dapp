@@ -4,6 +4,9 @@ node_modules
 # Other
 .nuxt*
 
+# Secrets
+.env
+
 # Service worker
 sw.*
 

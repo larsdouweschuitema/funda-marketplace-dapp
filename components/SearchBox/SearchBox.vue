@@ -32,6 +32,7 @@ export default {
       this.searchInputValue = event.target.value
     },
     handleSearch() {
+      // eslint-disable-next-line no-console
       console.log(this.searchInputValue)
     },
   },
