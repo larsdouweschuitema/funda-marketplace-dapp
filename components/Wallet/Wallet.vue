@@ -50,7 +50,7 @@ export default {
     async registerProperty() {
       if (this.token.id == null) return
       await this.decentralizedBankContract.methods
-        .mint(
+        .registerKadasterProperty(
           this.userData.metaMaskAddress,
           this.token.ipfsMetadataUrl,
           this.token.id
