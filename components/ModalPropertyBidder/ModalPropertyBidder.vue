@@ -1,18 +1,23 @@
 <template>
   <UiModal v-show="isModalVisible" :show-close-icon="true" @close="closeModal">
-    <template v-slot:header>Modal header</template>
+    <template v-slot:header>Buy property</template>
     <template v-slot:body>
-      <div class="mb-10 mx-12">Modal body</div>
+      <div class="p-4">
+        <UiInput class="mb-2" placeholder="Type a value e.g. 0.034030" />
+        <UiButton class="w-full" tone="primary">Bid</UiButton>
+      </div>
     </template>
   </UiModal>
 </template>
 
 <script>
-import { UiModal } from '@funda/ui'
+import { UiModal, UiInput, UiButton } from '@funda/ui'
 
 export default {
   components: {
     UiModal,
+    UiInput,
+    UiButton,
   },
   computed: {
     isModalVisible() {
