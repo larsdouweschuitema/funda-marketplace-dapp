@@ -4,7 +4,7 @@
     <main>
       <Nuxt />
     </main>
-    <ModalPropertyBidder />
+    <ModalPropertyBidder button-name="Bid" />
     <TheFooter></TheFooter>
   </div>
 </template>

@@ -4,7 +4,7 @@
     <template v-slot:body>
       <div class="p-4">
         <UiInput class="mb-2" placeholder="Type a value e.g. 0.034030" />
-        <UiButton class="w-full" tone="primary">Bid</UiButton>
+        <UiButton class="w-full" tone="primary">{{ buttonName }}</UiButton>
       </div>
     </template>
   </UiModal>
@@ -18,6 +18,12 @@ export default {
     UiModal,
     UiInput,
     UiButton,
+  },
+  props: {
+    buttonName: {
+      type: String,
+      required: true,
+    },
   },
   computed: {
     isModalVisible() {
