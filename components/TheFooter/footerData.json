@@ -1,0 +1,143 @@
+{
+  "navigations":[
+    {
+      "heading":"Diensten",
+      "links":[
+        {
+          "label":"Plaats je huis op funda",
+          "url":"https://www.funda.nl/huis-plaatsen/"
+
+        },
+        {
+          "label":"Zoek een NVM-makelaar",
+          "url":"https://www.funda.nl/makelaars/"
+        },
+        {
+          "label":"Bladeren door aanbod",
+          "url":"https://www.funda.nl/koop/bladeren/"
+        },
+        {
+          "label":"Wat is mijn woning waard?",
+          "url":"https://www.funda.nl/woningwaarde/"
+        }
+      ]
+    },
+    {
+      "heading":"Informatie",
+      "links":[
+        {
+          "label":"Veelgestelde vragen",
+          "url":"https://help.funda.nl/hc/nl/categories/200207038",
+          "target":"_blank",
+          "rel": "noopener"
+        },
+        {
+          "label":"Het funda Huis",
+          "url":"https://www.funda.nl/fundahuis/"
+        },
+        {
+          "label":"Koop jouw eerste huis",
+          "url":"https://www.funda.nl/meer-weten/starter/"
+        },
+        {
+          "label":"Verkoop je huis",
+          "url":"https://www.funda.nl/meer-weten/verkoper/"
+        },
+        {
+          "label":"Hoe zoek ik op funda?",
+          "url":"https://www.funda.nl/zoekbetervindmeer/"
+        }
+      ]
+    },
+    {
+      "heading":"Makelaars",
+      "links":[
+        {
+          "label":"funda desk",
+          "url":"https://www.fundadesk.nl/",
+          "target":"_blank",
+          "rel": "noopener"
+        },
+        {
+          "label":"Trends & data",
+          "url":"https://www.funda.nl/voormakelaars/trends-data/"
+        },
+        {
+          "label":"Leads",
+          "url":"https://www.funda.nl/voormakelaars/leads/"
+        },
+        {
+          "label":"Producten",
+          "url":"https://www.funda.nl/voormakelaars/producten/"
+        }
+      ]
+    },
+    {
+      "heading":"Over ons",
+      "links":[
+        {
+          "url":"https://www.funda.nl/over/",
+          "label":"Over funda"
+        },
+        {
+          "url":"https://www.funda.nl/contact/",
+          "label":"Contact"
+        },
+        {
+          "url":"https://jobs.funda.nl/l/nl/",
+          "label":"Vacatures"
+        },
+        {
+          "url":"https://www.funda.nl/adverteren/",
+          "label":"Adverteren"
+        }
+      ]
+    }
+  ],
+  "socials":[
+    {
+      "icon":"facebook",
+      "url":"https://www.facebook.com/funda",
+      "target": "_blank",
+      "rel": "noreferrer"
+    },
+    {
+      "icon":"twitter",
+      "url":"https://www.twitter.com/funda",
+      "target": "_blank",
+      "rel": "noreferrer"
+    },
+    {
+      "icon":"instagram",
+      "url":"https://www.instagram.com/funda.nl/",
+      "target": "_blank",
+      "rel": "noreferrer"
+    },
+    {
+      "icon":"youtube",
+      "url":"https://www.youtube.com/funda",
+      "target": "_blank",
+      "rel": "noreferrer"
+    },
+    {
+      "icon":"linkedin",
+      "url":"https://www.linkedin.com/company/funda",
+      "target": "_blank",
+      "rel": "noreferrer"
+    }
+  ],
+  "links": [
+    {
+      "label":"Privacy",
+      "url":"https://www.funda.nl/privacybeleid/"
+    },
+    {
+      "label":"Cookies",
+      "url":"https://www.funda.nl/cookiebeleid/"
+    },
+    {
+      "label":"Voorwaarden",
+      "url":"https://www.funda.nl/gebruiksvoorwaarden/"
+    }
+  ]
+}

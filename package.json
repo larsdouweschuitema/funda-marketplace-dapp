@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "nuxt": "^2.15.6",
+    "@nuxtjs/tailwindcss": "^4.0.1",
     "@funda/ui": "^4.5.0"
   }
 }
