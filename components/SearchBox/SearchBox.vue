@@ -1,39 +1,39 @@
 <template>
   <div class="bg-blue-5 p-4">
-    <div class="md:container md:mx-auto flex">
-      <UiInput
-        class="flex-1"
+    <div class="md:container md:mx-auto">
+      <input
+        v-model="searchInputValue"
         placeholder="City, neighborhood, address, etc."
-        @change="setSearchInputValue"
+        class="
+          w-full
+          rounded-sm
+          bg-white
+          shadow-inner
+          py-2
+          px-4
+          outline-none
+          text-base
+          font-normal
+          h-11
+        "
       />
-      <UiButton tone="primary" small @click="handleSearch"
-        ><UiIcon icon="search"
-      /></UiButton>
     </div>
   </div>
 </template>
 
 <script>
-import { UiInput, UiButton, UiIcon } from '@funda/ui'
-
 export default {
-  components: {
-    UiInput,
-    UiButton,
-    UiIcon,
-  },
   data() {
     return {
       searchInputValue: '',
     }
   },
-  methods: {
-    setSearchInputValue(event) {
-      this.searchInputValue = event.target.value
-    },
-    handleSearch() {
-      // eslint-disable-next-line no-console
-      console.log(this.searchInputValue)
+  watch: {
+    searchInputValue: {
+      handler(val) {
+        this.$store.commit('SET_SEARCH_INPUT_VALUE', val)
+      },
+      immediate: true,
     },
   },
 }

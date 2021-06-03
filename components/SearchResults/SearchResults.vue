@@ -1,8 +1,8 @@
 <template>
   <div class="md:container md:mx-auto p-4 md:px-0">
-    <SearchResultsList :properties="properties">
+    <SearchResultsList>
       <SearchResultsItem
-        v-for="(property, index) in properties"
+        v-for="(property, index) in filteredProperties"
         :key="index"
         :property="property"
         class="mb-4"
@@ -18,6 +18,17 @@ export default {
   computed: {
     properties() {
       return this.$store.state.properties
+    },
+    searchInputValue() {
+      return this.$store.state.searchInputValue
+    },
+    filteredProperties() {
+      return this.properties.filter((property) => {
+        console.log('property', property)
+        return property.address
+          .toLowerCase()
+          .includes(this.searchInputValue.toLowerCase())
+      })
     },
   },
   mounted() {

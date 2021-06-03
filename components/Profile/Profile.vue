@@ -2,7 +2,7 @@
   <div>
     <h1>Account</h1>
     <h2>My houses</h2>
-    <SearchResultsList :properties="properties">
+    <SearchResultsList>
       <SearchResultsItem
         v-for="(property, index) in properties"
         :key="index"
