@@ -10,7 +10,6 @@
         :on-click="openModal"
       />
     </SearchResultsList>
-    <ModalPropertyBidder />
   </div>
 </template>
 

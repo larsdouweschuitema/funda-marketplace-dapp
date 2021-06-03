@@ -4,6 +4,7 @@
     <main>
       <Nuxt />
     </main>
+    <ModalPropertyBidder />
     <TheFooter></TheFooter>
   </div>
 </template>
