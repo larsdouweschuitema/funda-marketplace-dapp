@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Wallet />
     <SearchBox />
     <SearchResults />
   </div>

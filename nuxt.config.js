@@ -37,8 +37,9 @@ export default {
   },
   build: {
     extractCSS: true,
-    transpile: ['@funda/ui', '@funda/icons'],
+    transpile: ['@funda/ui', '@funda/icons', 'vue-metamask'],
     indicator: false,
     terser: true,
   },
+  plugins: ['~/plugins/vue-metamask.js'],
 }
