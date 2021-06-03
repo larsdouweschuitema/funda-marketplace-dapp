@@ -2,11 +2,15 @@ import tempProperties from '../components/SearchResults/objectData'
 
 export const state = () => ({
   properties: [],
+  isModalVisible: false,
 })
 
 export const mutations = {
   SET_PROPERTIES(state, payload) {
     state.properties = payload
+  },
+  SET_MODAL_VISIBILITY(state, payload) {
+    state.isModalVisible = payload
   },
 }
 

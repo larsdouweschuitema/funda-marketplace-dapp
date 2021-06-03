@@ -18,7 +18,7 @@
     <div>{{ property.surfaceArea }}</div>
     <div class="mb-2 text-blue-2">{{ property.realtor }}</div>
     <div>
-      <UiButton tone="primary-alt">Buy</UiButton>
+      <UiButton tone="primary-alt" @click="openModal">Buy</UiButton>
     </div>
   </li>
 </template>
@@ -34,6 +34,11 @@ export default {
     property: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    openModal() {
+      this.$store.commit('SET_MODAL_VISIBILITY', true)
     },
   },
 }
