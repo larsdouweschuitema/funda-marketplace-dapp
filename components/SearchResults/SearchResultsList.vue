@@ -11,14 +11,12 @@
 
 <script>
 export default {
-  computed: {
-    properties() {
-      return this.$store.state.properties
+  props: {
+    properties: {
+      type: Array,
+      required: true,
+      default: () => [],
     },
-  },
-  mounted() {
-    // eslint-disable-next-line no-console
-    console.log('properties from store', this.properties)
   },
 }
 </script>
