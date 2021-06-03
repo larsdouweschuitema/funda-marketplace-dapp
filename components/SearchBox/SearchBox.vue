@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import debounce from 'lodash'
 export default {
   data() {
     return {
@@ -29,11 +30,13 @@ export default {
     }
   },
   watch: {
-    searchInputValue: {
-      handler(val) {
-        this.$store.commit('SET_SEARCH_INPUT_VALUE', val)
-      },
-      immediate: true,
+    searchInputValue(val) {
+      this.searchProperties(val)
+    },
+  },
+  methods: {
+    searchProperties(val) {
+      debounce(this.$store.commit('SET_SEARCH_INPUT_VALUE', val), 1000)
     },
   },
 }
