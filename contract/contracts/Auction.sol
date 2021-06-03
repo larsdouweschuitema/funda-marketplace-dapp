@@ -62,6 +62,8 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     // Array with all auctions
     Auction[] public auctions;
 
+    uint256[] public existingTokens;
+
     // Mapping from auction index to user bids
     mapping(uint256 => Bid[]) public auctionBids;
 
@@ -78,8 +80,13 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     * @dev Gets the length of auctions
     * @return uint representing the auction count
     */
-    function getCount() public view returns(uint) {
+    function getAuctionsCount() public view returns(uint) {
         return auctions.length;
+    }
+
+    function getExistingTokens() public view returns(uint[] memory) {
+        //todo
+        return existingTokens;
     }
 
     /**
@@ -300,7 +307,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         string memory _tokenURI = _tokenURIs[tokenId];
         return _tokenURI;
     }
-
 
     function tokenCreator(uint256 tokenId) public view returns(address) {
         require(_exists(tokenId), "Master: URI query for nonexistent token");

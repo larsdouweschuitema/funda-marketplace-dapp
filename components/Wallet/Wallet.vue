@@ -10,6 +10,8 @@
     <input v-model="token.ipfsMetadataUrl" placeholder="Url property json" />
     <input v-model="token.id" type="number" />
     <button @click="registerProperty()">Register property</button>
+    <button @click="getProperty(1)">Get property</button>
+    <p>{{property}}</p>
   </div>
 </template>
 <script>
@@ -23,11 +25,13 @@ export default {
   data() {
     return {
       userData: null,
-      decentralizedBankContract: null,
+      decentralizedContract: null,
       token: {
         id: null,
         ipfsMetadataUrl: null,
       },
+      property: null,
+      existingTokens: null
     }
   },
   async mounted() {
@@ -42,19 +46,47 @@ export default {
         'https://eth-ropsten.alchemyapi.io/v2/OPdcrIpUthOV6OEG8MA65-C3JmNFRhRS'
       const alchWeb3 = createAlchemyWeb3(API_KEY)
       const contractAddress = '0x780816e49CF248D07952BfAbefDeE5BCAC676C96'
-      this.decentralizedBankContract = new alchWeb3.eth.Contract(
+      this.decentralizedContract = new alchWeb3.eth.Contract(
         contract.abi,
         contractAddress
       )
     },
     async registerProperty() {
       if (this.token.id == null) return
-      await this.decentralizedBankContract.methods
+      await this.decentralizedContract.methods
         .registerKadasterProperty(
           this.userData.metaMaskAddress,
           this.token.ipfsMetadataUrl,
           this.token.id
         )
+        .send({
+          from: this.userData.metaMaskAddress,
+        })
+        .on('transactionHash')
+    },
+    async getProperty(tokenId){
+        this.property = await this.decentralizedContract.methods
+        .tokenURI(tokenId)
+        .call()
+    },
+    async getExistingTokenIds(){
+        //temporary till we release the new contract
+        this.existingTokens =[1,2,3,4];
+        // this.existingTokens = await this.decentralizedContract.methods
+        // .getExistingTokens()
+        // .call()
+    },
+    async bid(auctionId){
+        await this.decentralizedContract.methods
+        .bidOnAuction(auctionId)
+        .send({
+          from: this.userData.metaMaskAddress,
+        })
+        .on('transactionHash')
+    },
+    async finalizeAuction(auctionId){
+        await this.decentralizedContract.methods
+        .finalizeAuction(auctionId)
         .send({
           from: this.userData.metaMaskAddress,
         })
