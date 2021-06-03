@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>Account</h1>
-    <h2>My houses</h2>
+    <h2 class="mt-8">Wallet</h2>
+    <Wallet />
+    <h2 class="mt-8">My houses</h2>
     <SearchResultsList>
       <SearchResultsItem
         v-for="(property, index) in properties"
