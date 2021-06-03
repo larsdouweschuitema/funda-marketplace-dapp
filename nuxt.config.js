@@ -1,5 +1,5 @@
 export default {
-  buildModules: ['@nuxtjs/tailwindcss'],
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/tailwindcss'],
   head: {
     titleTemplate: '%s [funda]',
     htmlAttrs: {

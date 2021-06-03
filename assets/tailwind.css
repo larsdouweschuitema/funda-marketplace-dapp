@@ -1,0 +1,25 @@
+@font-face {
+  font-family: 'Proxima Nova';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/proximanova-regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/proximanova-semibold.woff2') format('woff2');
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-dark-1 font-proxima;
+  }
+}
