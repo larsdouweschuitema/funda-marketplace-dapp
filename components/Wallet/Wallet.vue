@@ -10,7 +10,6 @@
     <input v-model="token.ipfsMetadataUrl" placeholder="Url property json" />
     <input v-model="token.id" type="number" />
     <button @click="registerProperty()">Register property</button>
-    <button @click="getProperty(1)">Get property</button>
     <p>{{property}}</p>
   </div>
 </template>
@@ -36,6 +35,7 @@ export default {
   },
   async mounted() {
     await this.loadBlockchainData()
+    this.getProperty(1)
   },
   methods: {
     onComplete(responseData) {
@@ -68,6 +68,9 @@ export default {
         this.property = await this.decentralizedContract.methods
         .tokenURI(tokenId)
         .call()
+        
+        const property = await this.$axios.get('https://funda.free.beeceptor.com/metadata_1')
+        this.$store.commit('SET_PROPERTIES', [property.data])
     },
     async getExistingTokenIds(){
         //temporary till we release the new contract
