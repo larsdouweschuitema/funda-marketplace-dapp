@@ -84,6 +84,14 @@ export default {
         })
         .on('transactionHash')
     },
+    async createAuction(tokenId, auctionTitle, startPrice, deadline){
+        await this.decentralizedContract.methods
+        .createAuction(tokenId,auctionTitle,startPrice, deadline)
+        .send({
+          from: this.userData.metaMaskAddress,
+        })
+        .on('transactionHash')
+    },
     async finalizeAuction(auctionId){
         await this.decentralizedContract.methods
         .finalizeAuction(auctionId)
@@ -92,6 +100,7 @@ export default {
         })
         .on('transactionHash')
     },
+    // getAuction
   },
 }
 </script>

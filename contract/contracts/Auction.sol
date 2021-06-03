@@ -161,7 +161,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         //todo: this is WRONG, the contract needs to be contract owner
         // as the user empowers the Contract to trade for him
         // so here user should transfer the contract when making the auction
-        require(isPropertyOwner(_propertyId) == true, 'Must be owner of the property contract');
+        // require(isPropertyOwner(_propertyId) == true, 'Must be owner of the property contract');
         // require(ownerOf(_tokenId) == _msgSender(), 'Must be owner of the property contract');
 
         // address user = _msgSender();
