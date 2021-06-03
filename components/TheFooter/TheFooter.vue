@@ -17,7 +17,15 @@
               class="pr-2"
             >
               <a
-                class="bg-white rounded-sm inline-flex h-11 w-11 justify-center items-center"
+                class="
+                  bg-white
+                  rounded-sm
+                  inline-flex
+                  h-11
+                  w-11
+                  justify-center
+                  items-center
+                "
                 :href="social.url"
                 :aria-label="social.icon"
                 :target="social.target"
@@ -27,7 +35,14 @@
             </li>
           </ul>
           <div
-            class="flex flex-col md:flex-row w-full items-center md:items-start md:justify-end"
+            class="
+              flex flex-col
+              md:flex-row
+              w-full
+              items-center
+              md:items-start
+              md:justify-end
+            "
           >
             <p class="mb-2">&copy; 2001-{{ currentYear }} funda</p>
             <ul class="flex">

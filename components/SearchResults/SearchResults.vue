@@ -1,10 +1,7 @@
 <template>
-  <div class="md:container md:mx-auto">
+  <div class="md:container md:mx-auto p-4">
     <SearchResultsList />
-    <ui-modal
-      v-show="isModalVisible"
-      @close="closeModal"
-    >
+    <ui-modal v-show="isModalVisible" @close="closeModal">
       <template v-slot:header>Modal header</template>
       <template v-slot:body>
         <div class="mb-10 mx-12">Modal body</div>
@@ -14,7 +11,7 @@
 </template>
 
 <script>
-import { UiModal } from "@funda/ui";
+import { UiModal } from '@funda/ui'
 
 export default {
   components: {
@@ -23,15 +20,15 @@ export default {
   data() {
     return {
       isModalVisible: false,
-    };
+    }
   },
   methods: {
     showModal() {
-      this.isModalVisible = true;
+      this.isModalVisible = true
     },
     closeModal() {
-      this.isModalVisible = false;
+      this.isModalVisible = false
     },
   },
-};
+}
 </script>

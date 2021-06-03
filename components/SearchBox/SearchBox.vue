@@ -1,8 +1,14 @@
 <template>
-  <div class="bg-blue-5 py-2">
+  <div class="bg-blue-5 p-4">
     <div class="md:container md:mx-auto flex">
-      <UiInput class="flex-1" placeholder="City, neighborhood, address, etc." @change="setSearchInputValue" />
-      <UiButton tone="primary" small @click="handleSearch"><UiIcon icon="search" /></UiButton>
+      <UiInput
+        class="flex-1"
+        placeholder="City, neighborhood, address, etc."
+        @change="setSearchInputValue"
+      />
+      <UiButton tone="primary" small @click="handleSearch"
+        ><UiIcon icon="search"
+      /></UiButton>
     </div>
   </div>
 </template>
@@ -27,7 +33,7 @@ export default {
     },
     handleSearch() {
       console.log(this.searchInputValue)
-    }
-  }
+    },
+  },
 }
 </script>
