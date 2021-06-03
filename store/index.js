@@ -1,3 +1,5 @@
+import tempProperties from '../components/SearchResults/objectData'
+
 export const state = () => ({
   properties: [],
 })
@@ -9,8 +11,8 @@ export const mutations = {
 }
 
 export const actions = {
-  async getProperties({ commit }) {
-    const properties = await this.$axios.get('/posts')
-    commit('SET_PROPERTIES', properties.data)
+  getProperties({ commit }) {
+    // const properties = await this.$axios.get('/posts')
+    commit('SET_PROPERTIES', tempProperties)
   },
 }

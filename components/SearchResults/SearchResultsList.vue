@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="item in items" :key="item.message" class="mb-4">
+    <li v-for="(item, index) in properties" :key="index" class="mb-4">
       <img
         alt="Kastanjelaan 35"
         loading="lazy"
@@ -27,16 +27,10 @@
 
 <script>
 import { UiButton } from '@funda/ui'
-import items from './objectData'
 
 export default {
   components: {
     UiButton,
-  },
-  data() {
-    return {
-      items,
-    }
   },
   computed: {
     properties() {
