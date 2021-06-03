@@ -1,11 +1,6 @@
 <template>
   <ul>
-    <SearchResultsItem
-      v-for="(property, index) in properties"
-      :key="index"
-      :property="property"
-      class="mb-4"
-    />
+    <slot />
   </ul>
 </template>
 
