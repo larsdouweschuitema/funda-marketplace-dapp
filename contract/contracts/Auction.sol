@@ -26,7 +26,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     mapping (uint256 => address) private _tokenCreators;
 
 
-    constructor() ERC721("Deed", "Funda") {
+    constructor() ERC721("fundaCoin", "funda") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
         _setupRole(MINTER_ROLE, _msgSender());
         _setupRole(PAUSER_ROLE, _msgSender());
