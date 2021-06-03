@@ -1,5 +1,9 @@
 export default {
-  buildModules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/axios'],
+  axios: {
+    baseURL: process.env.API_URL,
+  },
+  buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/pwa', '@nuxtjs/tailwindcss'],
   head: {
     titleTemplate: '%s [funda]',
     htmlAttrs: {
