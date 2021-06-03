@@ -1,8 +1,8 @@
 <template>
-  <main>
+  <div>
     <SearchBox />
     <SearchResults />
-  </main>
+  </div>
 </template>
 
 <script>
