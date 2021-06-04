@@ -15,11 +15,32 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     using Strings for uint256;
 
     Counters.Counter private _tokenIdTracker;
+    Counters.Counter private _auctionIdTracker;
 
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
     bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
     bytes32 public constant DEED_ROLE = keccak256("DEED_ROLE");
     
+
+    // Array with all auctions
+    AuctionDto[] public auctions;
+
+    // Auction struct which holds all the required info
+    struct AuctionDto {
+        uint256 deadline;
+        uint256 startPrice;
+        string metadata;
+        uint256 tokenId;
+        address payable owner;
+        bool active;
+        bool finalized;
+    }
+    
+    // Bid struct to hold bidder and amount
+    struct Bid {
+        address payable from;
+        uint256 amount;
+    }
 
     // Optional mapping for token URIs
     mapping (uint256 => string) private _tokenURIs;
@@ -45,20 +66,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         return "You are contract owner!";
     }
 
-    // Auction struct which holds all the required info
-    struct Auction {
-        uint256 deadline;
-        uint256 startPrice;
-        string metadata;
-        uint256 tokenId;
-        address payable owner;
-        bool active;
-        bool finalized;
-    }
-
-    // Array with all auctions
-    Auction[] public auctions;
-
     // Mapping from auction index to user bids
     mapping(uint256 => Bid[]) public auctionBids;
 
@@ -67,23 +74,9 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
 
     mapping(address => uint[]) public tokenOwner;
 
-    // Bid struct to hold bidder and amount
-    struct Bid {
-        address payable from;
-        uint256 amount;
-    }
-
     function getTokensOf(address _owner) public view returns(uint[] memory) {
         uint[] memory ownedTokens = tokenOwner[_owner];
         return ownedTokens;
-    }
-
-    /**
-    * @dev Gets the length of auctions
-    * @return uint representing the auction count
-    */
-    function getAuctionsCount() public view returns(uint) {
-        return auctions.length;
     }
 
     /**
@@ -136,7 +129,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         bool active,
         bool finalized) {
 
-        Auction memory auc = auctions[_auctionId];
+        AuctionDto memory auc = auctions[_auctionId];
         return (
             auc.deadline, 
             auc.startPrice, 
@@ -152,13 +145,12 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         // address auctionContractAddress = address(this);
         // from, to, id
         // safeTransferFrom(user, auctionContractAddress, _propertyId);
-        
+        _auctionIdTracker.increment();
+
         string memory _tokenURI = tokenURI(_propertyId);
 
-
-        //todo: use counter
-        uint auctionId = auctions.length;
-        Auction memory newAuction;
+        uint auctionId = _auctionIdTracker.current();
+        AuctionDto memory newAuction;
         newAuction.deadline = _deadline;
         newAuction.startPrice = _startPrice;
         newAuction.metadata = _tokenURI;
@@ -186,7 +178,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     }
 
     function cancelAuction(uint _auctionId) public isOwner(_auctionId){
-        Auction memory myAuction = auctions[_auctionId];
+        AuctionDto memory myAuction = auctions[_auctionId];
         uint bidsLength = auctionBids[_auctionId].length;
 
         // if there are bids refund the last bid
@@ -205,8 +197,10 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     }
 
     function finalizeAuction(uint _auctionId) public {
-        Auction memory myAuction = auctions[_auctionId];
+        AuctionDto memory myAuction = auctions[_auctionId];
         uint bidsLength = auctionBids[_auctionId].length;
+
+        _auctionIdTracker.decrement();
 
         // if there are no bids cancel
         if(bidsLength == 0) {
@@ -232,7 +226,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         uint256 ethAmountSent = msg.value;
 
         // owner can't bid on their auctions
-        Auction memory myAuction = auctions[_auctionId];
+        AuctionDto memory myAuction = auctions[_auctionId];
         if(myAuction.owner == msg.sender) revert();
 
         // if auction is expired
