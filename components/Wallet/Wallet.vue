@@ -4,14 +4,16 @@
     <div v-if="userData">
       <label>Wallet address:</label>{{ userData.metaMaskAddress }}
     </div>
-    <button @click="saveFile()">Submit IPFS</button>
+    <UiButton @click="saveFile()">Submit IPFS</UiButton>
     <label>TokenId</label>
     <input v-model="token.ipfsMetadataUrl" placeholder="Url property json" />
-    <button @click="registerProperty()">Register property</button>
-    <button @click="getAuction(1)">Get Auction</button>
+    <UiButton @click="registerProperty()">Register property</UiButton>
+    <UiButton @click="getAuction(1)">Get Auction</UiButton>
     <p>{{auctionData}}</p>
-    <button @click="bid(2,1.1)">BID</button>
-    <button @click="getTokensOfUser()">getTokensOfUser</button>
+    <div>
+      <UiButton @click="bid(2,1.1)">BID</UiButton>
+    </div>
+    <UiButton @click="getTokensOfUser()">getTokensOfUser</UiButton>
     <ModalPropertyBidder button-name="Create auction" :handle-click="sellProperty">
       <input v-model="token.id" type="number" placeholder="Type a value e.g. 1" />
     </ModalPropertyBidder>
@@ -21,9 +23,12 @@
 import VueMetamask from 'vue-metamask'
 import { createAlchemyWeb3 } from '@alch/alchemy-web3'
 import contract from '../../contract/build/contracts/Auction.json'
+import { UiButton } from '@funda/ui'
+
 export default {
   components: {
     VueMetamask,
+    UiButton,
   },
   data() {
     return {
