@@ -59,7 +59,7 @@ export default {
       const API_KEY =
         'https://eth-ropsten.alchemyapi.io/v2/OPdcrIpUthOV6OEG8MA65-C3JmNFRhRS'
       this.alchWeb3 = createAlchemyWeb3(API_KEY)
-      const contractAddress = '0x2677E1171D0c4CaB15C526fBfEC94F7FB8ab4f8E'
+      const contractAddress = '0x505A572953376f23dbF3ff8BAe0c40Ce3285C55B'
       this.decentralizedContract = new this.alchWeb3.eth.Contract(
         contract.abi,
         contractAddress
