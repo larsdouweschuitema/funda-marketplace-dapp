@@ -45,15 +45,12 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         return "You are contract owner!";
     }
 
-    //todo: dub=plicate variable name,  already declared as separate variable
     // Auction struct which holds all the required info
     struct Auction {
-        string name;
         uint256 deadline;
         uint256 startPrice;
         string metadata;
         uint256 tokenId;
-        //remove owner?
         address payable owner;
         bool active;
         bool finalized;
@@ -62,18 +59,23 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     // Array with all auctions
     Auction[] public auctions;
 
-    uint256[] public existingTokens;
-
     // Mapping from auction index to user bids
     mapping(uint256 => Bid[]) public auctionBids;
 
     // Mapping from owner to a list of owned auctions
     mapping(address => uint[]) public auctionOwner;
 
+    mapping(address => uint[]) public tokenOwner;
+
     // Bid struct to hold bidder and amount
     struct Bid {
         address payable from;
         uint256 amount;
+    }
+
+    function getTokensOf(address _owner) public view returns(uint[] memory) {
+        uint[] memory ownedTokens = tokenOwner[_owner];
+        return ownedTokens;
     }
 
     /**
@@ -82,11 +84,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     */
     function getAuctionsCount() public view returns(uint) {
         return auctions.length;
-    }
-
-    function getExistingTokens() public view returns(uint[] memory) {
-        //todo
-        return existingTokens;
     }
 
     /**
@@ -131,18 +128,16 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     }
 
     function getAuctionById(uint _auctionId) public view returns(
-        string memory name,
         uint256 deadline,
         uint256 startPrice,
         string memory metadata,
         uint256 tokenId,
-        address owner,
+        address payable owner,
         bool active,
         bool finalized) {
 
         Auction memory auc = auctions[_auctionId];
         return (
-            auc.name, 
             auc.deadline, 
             auc.startPrice, 
             auc.metadata, 
@@ -151,24 +146,12 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
             auc.active, 
             auc.finalized);
     }
-
-    function isPropertyOwner(uint256 tokenId) public view returns(bool) {
-        address propertyOwner = ownerOf(tokenId);
-        return(propertyOwner == _msgSender());
-    }
     
-    function createAuction(uint256 _propertyId, string memory _auctionTitle, uint256 _startPrice, uint _deadline) public virtual returns(bool) {
-        //todo: this is WRONG, the contract needs to be contract owner
-        // as the user empowers the Contract to trade for him
-        // so here user should transfer the contract when making the auction
-        // require(isPropertyOwner(_propertyId) == true, 'Must be owner of the property contract');
-        // require(ownerOf(_tokenId) == _msgSender(), 'Must be owner of the property contract');
-
-        // address user = _msgSender();
-        address payable user = payable(msg.sender);
-        address auctionContractAddress = address(this);
+    function createAuction(uint256 _propertyId, uint256 _startPrice, uint _deadline) public virtual returns(bool) {
+        // address payable user = payable(msg.sender);
+        // address auctionContractAddress = address(this);
         // from, to, id
-        safeTransferFrom(user, auctionContractAddress, _propertyId);
+        // safeTransferFrom(user, auctionContractAddress, _propertyId);
         
         string memory _tokenURI = tokenURI(_propertyId);
 
@@ -176,19 +159,18 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         //todo: use counter
         uint auctionId = auctions.length;
         Auction memory newAuction;
-        newAuction.name = _auctionTitle;
         newAuction.deadline = _deadline;
         newAuction.startPrice = _startPrice;
         newAuction.metadata = _tokenURI;
         newAuction.tokenId = _propertyId;
-        newAuction.owner = user;
+        newAuction.owner = payable(msg.sender);
         newAuction.active = true;
         newAuction.finalized = false;
         
         auctions.push(newAuction);        
-        auctionOwner[user].push(auctionId);
+        auctionOwner[msg.sender].push(auctionId);
         
-        emit AuctionCreated(user, auctionId);
+        emit AuctionCreated(msg.sender, auctionId);
         return true;
     }
 
@@ -198,9 +180,12 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         return true;
     }
 
-    function cancelAuction(uint _auctionId) public {
-        require(isPropertyOwner(_auctionId) == true, 'Must be owner of the property contract');
+    modifier isOwner(uint _auctionId) {
+        require(auctions[_auctionId].owner == payable(msg.sender));
+        _;
+    }
 
+    function cancelAuction(uint _auctionId) public isOwner(_auctionId){
         Auction memory myAuction = auctions[_auctionId];
         uint bidsLength = auctionBids[_auctionId].length;
 
@@ -223,9 +208,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         Auction memory myAuction = auctions[_auctionId];
         uint bidsLength = auctionBids[_auctionId].length;
 
-        // if auction not ended just revert
-        // if( block.timestamp < myAuction.deadline ) revert();
-        
         // if there are no bids cancel
         if(bidsLength == 0) {
             cancelAuction(_auctionId);
@@ -251,7 +233,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
 
         // owner can't bid on their auctions
         Auction memory myAuction = auctions[_auctionId];
-        if(myAuction.owner == msg.sender) revert();
+        if(myAuction.owner == payable(msg.sender)) revert();
 
         // if auction is expired
         if( block.timestamp > myAuction.deadline ) revert();
@@ -323,6 +305,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
 
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, tokenURI_, to);
+        tokenOwner[to].push(tokenId);
     }
 
     function totalOfMintedTokens() public view returns(string memory) {
