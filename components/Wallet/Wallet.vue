@@ -9,6 +9,7 @@
     <input v-model="token.ipfsMetadataUrl" placeholder="Url property json" />
     <UiButton @click="registerProperty()">Register property</UiButton>
     <UiButton @click="getAuction(1)">Get Auction</UiButton>
+    <UiButton @click="finalizeAuction(0)">Finalize Auction</UiButton>
     <p>{{auctionData}}</p>
     <UiButton @click="getTokensOfUser()">getTokensOfUser</UiButton>
     <ModalPropertyBidder button-name="Create auction" :handle-click="sellProperty">
@@ -43,14 +44,18 @@ export default {
   },
   async mounted() {
     await this.loadBlockchainData()
+
+    // const tokenId = await this.getTokensOfUser();
+    // console.log(tokenId,"token")
     this.getProperty(1)
+
     this.$bus.$on('chatClicked', () => {
-      this.bid(2,1.1)
+      this.bid(0,0.01)
     })
   },
   methods: {
     sellProperty() {
-      this.createAuction(1,this.token.id)
+      this.createAuction(1,0.00001)
     },
     onComplete(responseData) {
       this.userData = responseData
@@ -59,7 +64,7 @@ export default {
       const API_KEY =
         'https://eth-ropsten.alchemyapi.io/v2/OPdcrIpUthOV6OEG8MA65-C3JmNFRhRS'
       this.alchWeb3 = createAlchemyWeb3(API_KEY)
-      const contractAddress = '0x505A572953376f23dbF3ff8BAe0c40Ce3285C55B'
+      const contractAddress = '0xbAd1EaCc5EE6b918522AAfFDF371664D646cBe93'
       this.decentralizedContract = new this.alchWeb3.eth.Contract(
         contract.abi,
         contractAddress

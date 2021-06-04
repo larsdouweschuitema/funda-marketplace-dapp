@@ -138,7 +138,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         }
 
         // approve and transfer from this contract to auction owner
-        if(approveAndTransfer(address(this), myAuction.owner, myAuction.tokenId)){
+        if(approveAndTransfer(msg.sender, myAuction.owner, myAuction.tokenId)){
             auctions[_auctionId].active = false;
             emit AuctionCanceled(msg.sender, _auctionId);
         }
@@ -162,7 +162,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
             }
 
             // approve and transfer from this contract to the bid winner 
-            if(approveAndTransfer(address(this), lastBid.from, myAuction.tokenId)){
+            if(approveAndTransfer(msg.sender, lastBid.from, myAuction.tokenId)){
                 auctions[_auctionId].active = false;
                 auctions[_auctionId].finalized = true;
                 emit AuctionFinalized(msg.sender, _auctionId);
