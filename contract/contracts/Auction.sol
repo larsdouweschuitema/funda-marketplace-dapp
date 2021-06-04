@@ -181,7 +181,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     }
 
     modifier isOwner(uint _auctionId) {
-        require(auctions[_auctionId].owner == payable(msg.sender));
+        require(auctions[_auctionId].owner == msg.sender);
         _;
     }
 
@@ -233,7 +233,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
 
         // owner can't bid on their auctions
         Auction memory myAuction = auctions[_auctionId];
-        if(myAuction.owner == payable(msg.sender)) revert();
+        if(myAuction.owner == msg.sender) revert();
 
         // if auction is expired
         if( block.timestamp > myAuction.deadline ) revert();

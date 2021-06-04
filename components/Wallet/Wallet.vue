@@ -10,7 +10,19 @@
     <input v-model="token.ipfsMetadataUrl" placeholder="Url property json" />
     <input v-model="token.id" type="number" />
     <button @click="registerProperty()">Register property</button>
-    <p>{{property}}</p>
+    <p />
+    <button @click="createAuction(1,token.id)">Create Auction</button>
+    <input v-model="token.id" type="number" />
+    <p />
+    <button @click="cancelAuction(1)">Cancel Auction</button>
+    <p />
+    <button @click="getAuction(1)">Get Auction</button>
+    <p>{{auctionData}}</p>
+    <p />
+    <button @click="bid(2,1.1)">BID</button>
+    <p />
+    <button @click="getTokensOfUser()">getTokensOfUser</button>
+    
   </div>
 </template>
 <script>
@@ -23,6 +35,7 @@ export default {
   },
   data() {
     return {
+      alchWeb3: null,
       userData: null,
       decentralizedContract: null,
       token: {
@@ -30,7 +43,8 @@ export default {
         ipfsMetadataUrl: null,
       },
       property: null,
-      existingTokens: null
+      existingTokens: null,
+      auctionData: null
     }
   },
   async mounted() {
@@ -44,9 +58,9 @@ export default {
     loadBlockchainData() {
       const API_KEY =
         'https://eth-ropsten.alchemyapi.io/v2/OPdcrIpUthOV6OEG8MA65-C3JmNFRhRS'
-      const alchWeb3 = createAlchemyWeb3(API_KEY)
-      const contractAddress = '0x780816e49CF248D07952BfAbefDeE5BCAC676C96'
-      this.decentralizedContract = new alchWeb3.eth.Contract(
+      this.alchWeb3 = createAlchemyWeb3(API_KEY)
+      const contractAddress = '0xF3A0F15bbF5BA6340Cf3d4295B21C32317f78db7'
+      this.decentralizedContract = new this.alchWeb3.eth.Contract(
         contract.abi,
         contractAddress
       )
@@ -69,29 +83,43 @@ export default {
         .tokenURI(tokenId)
         .call()
         
-        const property = await this.$axios.get('https://funda.free.beeceptor.com/metadata_1')
+        const property = await this.$axios.get('https://dweb.link/ipfs/QmYygiPjm9DMa7Pme1Q2LeDFsRQ14K2jNPTTfYZFD38NQy')
         this.$store.commit('SET_PROPERTIES', [property.data])
     },
-    async getExistingTokenIds(){
-        //temporary till we release the new contract
-        this.existingTokens =[1,2,3,4];
-        // this.existingTokens = await this.decentralizedContract.methods
-        // .getExistingTokens()
-        // .call()
+    // returns a list with all tokenIds of User
+    async getTokensOfUser(){
+        let result = this.existingTokens = await this.decentralizedContract.methods
+        .getTokensOf(this.userData.metaMaskAddress)
+        .call()
+        console.log(result)
     },
-    async bid(auctionId){
+    async bid(auctionId, amount){
+        let valueEth = this.alchWeb3.utils.toWei(String(amount), 'ether')
         await this.decentralizedContract.methods
         .bidOnAuction(auctionId)
         .send({
           from: this.userData.metaMaskAddress,
+          value: valueEth
         })
         .on('transactionHash')
     },
-    async createAuction(tokenId, auctionTitle, startPrice, deadline){
+    async createAuction(tokenId, startPrice){
+        let now = new Date();
+        let tms = now.setDate(now.getDate() + parseInt(1));
+        let time = parseInt(tms/1000)
+        let valueEth = this.alchWeb3.utils.toWei(String(startPrice), 'ether')
         await this.decentralizedContract.methods
-        .createAuction(tokenId,auctionTitle,startPrice, deadline)
+        .createAuction(tokenId,valueEth, time)
         .send({
-          from: this.userData.metaMaskAddress,
+          from: this.userData.metaMaskAddress
+        })
+        .on('transactionHash')
+    },
+    async cancelAuction(tokenId){
+        await this.decentralizedContract.methods
+        .cancelAuction(tokenId)
+        .send({
+          from: this.userData.metaMaskAddress
         })
         .on('transactionHash')
     },
@@ -103,7 +131,11 @@ export default {
         })
         .on('transactionHash')
     },
-    // getAuction
+    async getAuction(auctionId){
+        this.auctionData = await this.decentralizedContract.methods
+        .getAuctionById(auctionId)
+        .call()
+    }
   },
 }
 </script>
