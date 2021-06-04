@@ -1,9 +1,23 @@
-# funda marketplace dapp
+<div align="center">
+  <img width="200" src="docs/funda-marketplace-dapp.png" alt="funda Marketplace DApp">
+  <h1>funda Marketplace DApp</h1>
+</div>
+
+We created a decentralized application using blockchain technology.​
+​
+Now, funda is not only a marketplace, but also an intermediary for buying and selling real estate, disrupting notary services.
 
 ## Table of contents
 
+- [Features](#features)
 - [Installation](#installation)
 - [Production](#production)
+
+## Features
+- Replacing the intermediaries.​
+- Enable funda to support real estate transactions more comprehensively ​
+- Introduce new ways to trade real estate.​
+- Enable fractional ownership to lower the barriers to real estate investing 
 
 ## Installation
 ```bash
