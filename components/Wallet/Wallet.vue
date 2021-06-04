@@ -9,7 +9,7 @@
     <input v-model="token.ipfsMetadataUrl" placeholder="Url property json" />
     <UiButton @click="registerProperty()">Register property</UiButton>
     <UiButton @click="getAuction(1)">Get Auction</UiButton>
-    <UiButton @click="finalizeAuction(0)">Finalize Auction</UiButton>
+    <UiButton @click="finalizeAuction(auctionGlobalId)">Finalize Auction</UiButton>
     <p>{{auctionData}}</p>
     <UiButton @click="getTokensOfUser()">getTokensOfUser</UiButton>
     <ModalPropertyBidder button-name="Create auction" :handle-click="sellProperty">
@@ -39,7 +39,8 @@ export default {
       },
       property: null,
       existingTokens: null,
-      auctionData: null
+      auctionData: null,
+      auctionGlobalId: 1
     }
   },
   async mounted() {
@@ -50,7 +51,7 @@ export default {
     this.getProperty(1)
 
     this.$bus.$on('chatClicked', () => {
-      this.bid(0,0.01)
+      this.bid(this.auctionGlobalId,0.01)
     })
   },
   methods: {
