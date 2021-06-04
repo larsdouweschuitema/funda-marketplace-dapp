@@ -10,9 +10,6 @@
     <UiButton @click="registerProperty()">Register property</UiButton>
     <UiButton @click="getAuction(1)">Get Auction</UiButton>
     <p>{{auctionData}}</p>
-    <div>
-      <UiButton @click="bid(2,1.1)">BID</UiButton>
-    </div>
     <UiButton @click="getTokensOfUser()">getTokensOfUser</UiButton>
     <ModalPropertyBidder button-name="Create auction" :handle-click="sellProperty">
       <input v-model="token.id" type="number" placeholder="Type a value e.g. 1" />
@@ -47,6 +44,9 @@ export default {
   async mounted() {
     await this.loadBlockchainData()
     this.getProperty(1)
+    this.$bus.$on('chatClicked', () => {
+      this.bid(2,1.1)
+    })
   },
   methods: {
     sellProperty() {

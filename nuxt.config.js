@@ -41,5 +41,5 @@ export default {
     indicator: false,
     terser: true,
   },
-  plugins: ['~/plugins/vue-metamask.js'],
+  plugins: ['~/plugins/vue-metamask.js', '~/plugins/bus.client.js'],
 }

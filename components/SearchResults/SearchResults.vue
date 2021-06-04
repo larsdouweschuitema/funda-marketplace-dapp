@@ -11,15 +11,19 @@
       </SearchResultsItem>
     </SearchResultsList>
     <div v-else>No properties found</div>
+    <ModalPropertyBidder button-name="Bid" :handle-click="bidOnProperty">
+      <UiInput class="mb-2" placeholder="Type a value e.g. 0.034030" />
+    </ModalPropertyBidder>
   </div>
 </template>
 
 <script>
-import { UiButton } from '@funda/ui'
+import { UiButton, UiInput } from '@funda/ui'
 
 export default {
   components: {
     UiButton,
+    UiInput,
   },
   computed: {
     properties() {
@@ -39,6 +43,9 @@ export default {
   methods: {
     openModal() {
       this.$store.commit('SET_MODAL_VISIBILITY', true)
+    },
+    bidOnProperty() {
+      this.$bus.$emit('chatClicked')
     },
   },
 }
