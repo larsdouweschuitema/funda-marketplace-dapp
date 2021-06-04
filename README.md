@@ -38,3 +38,16 @@ $ npm run dev
 $ npm run build
 $ npm run start
 ```
+
+## Tech stack
+- Ethereum asset pipeline `truffle` 
+- Vue framework `nuxt` including:
+  - Runtime environment `node`
+  - Client side framework `vue`
+  - Module bundler `webpack`
+- Package manager `npm`
+- UI Framework `tailwindcss`
+  - Shared funda configuration `@funda/tailwind-config`
+- Vue Component Library `@funda/ui`
+- Development experience/consistency + Linters `eslint`, `prettier`, `commitlint`, `lint-staged` and `.editorconfig`
+- Shared funda icons `@funda/icons`
