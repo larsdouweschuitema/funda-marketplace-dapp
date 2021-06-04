@@ -11,8 +11,7 @@
     <input v-model="token.id" type="number" />
     <button @click="registerProperty()">Register property</button>
     <p />
-    <button @click="createAuction(1,token.id)">Create Auction</button>
-    <input v-model="token.id" type="number" />
+    
     <p />
     <button @click="cancelAuction(1)">Cancel Auction</button>
     <p />
@@ -22,7 +21,9 @@
     <button @click="bid(2,1.1)">BID</button>
     <p />
     <button @click="getTokensOfUser()">getTokensOfUser</button>
-    
+    <ModalPropertyBidder button-name="Create auction" :handle-click="sellProperty">
+      <input v-model="token.id" type="number" placeholder="Type a value e.g. 1" />
+    </ModalPropertyBidder>
   </div>
 </template>
 <script>
@@ -52,6 +53,9 @@ export default {
     this.getProperty(1)
   },
   methods: {
+    sellProperty() {
+      this.createAuction(1,this.token.id)
+    },
     onComplete(responseData) {
       this.userData = responseData
     },

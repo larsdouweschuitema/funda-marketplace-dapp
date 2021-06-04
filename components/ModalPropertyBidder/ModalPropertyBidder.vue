@@ -3,22 +3,22 @@
     <template v-slot:header>Buy property</template>
     <template v-slot:body>
       <div class="p-4">
-        <UiInput class="mb-2" placeholder="Type a value e.g. 0.034030" />
+        <slot />
         <UiButton class="w-full" tone="primary" @click="handleClick">{{
           buttonName
         }}</UiButton>
+        
       </div>
     </template>
   </UiModal>
 </template>
 
 <script>
-import { UiModal, UiInput, UiButton } from '@funda/ui'
+import { UiModal, UiButton } from '@funda/ui'
 
 export default {
   components: {
     UiModal,
-    UiInput,
     UiButton,
   },
   props: {
