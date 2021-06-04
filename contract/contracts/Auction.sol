@@ -96,6 +96,10 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         return ownedAuctions;
     }
 
+    function getAuctions() public view returns(AuctionDto[] memory){
+        return auctions;
+    }
+
     /**
     * @dev Gets an array of owned auctions
     * @param _auctionId uint of the auction owner
@@ -145,11 +149,12 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         // address auctionContractAddress = address(this);
         // from, to, id
         // safeTransferFrom(user, auctionContractAddress, _propertyId);
-        _auctionIdTracker.increment();
 
         string memory _tokenURI = tokenURI(_propertyId);
 
         uint auctionId = _auctionIdTracker.current();
+        _auctionIdTracker.increment();
+
         AuctionDto memory newAuction;
         newAuction.deadline = _deadline;
         newAuction.startPrice = _startPrice;
@@ -163,6 +168,7 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         auctionOwner[msg.sender].push(auctionId);
         
         emit AuctionCreated(msg.sender, auctionId);
+
         return true;
     }
 
