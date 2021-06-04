@@ -6,16 +6,21 @@
         :key="index"
         :property="property"
         class="mb-4"
-        button-name="Buy"
-        :on-click="openModal"
-      />
+      >
+        <UiButton tone="primary-alt" @click="openModal">Buy</UiButton>
+      </SearchResultsItem>
     </SearchResultsList>
     <div v-else>No properties found</div>
   </div>
 </template>
 
 <script>
+import { UiButton } from '@funda/ui'
+
 export default {
+  components: {
+    UiButton,
+  },
   computed: {
     properties() {
       return this.$store.state.properties

@@ -18,29 +18,17 @@
     <div>{{ property.surfaceArea }}</div>
     <div class="mb-2 text-blue-2">{{ property.realtor }}</div>
     <div>
-      <UiButton tone="primary-alt" @click="onClick">{{ buttonName }}</UiButton>
+      <!-- <UiButton tone="primary-alt" @click="onClick">{{ buttonName }}</UiButton> -->
+      <slot />
     </div>
   </li>
 </template>
 
 <script>
-import { UiButton } from '@funda/ui'
-
 export default {
-  components: {
-    UiButton,
-  },
   props: {
     property: {
       type: Object,
-      required: true,
-    },
-    buttonName: {
-      type: String,
-      required: true,
-    },
-    onClick: {
-      type: Function,
       required: true,
     },
   },

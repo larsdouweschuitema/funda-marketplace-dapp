@@ -5,21 +5,12 @@
       <label>Wallet address:</label>{{ userData.metaMaskAddress }}
     </div>
     <button @click="saveFile()">Submit IPFS</button>
-    <p />
     <label>TokenId</label>
     <input v-model="token.ipfsMetadataUrl" placeholder="Url property json" />
-    <input v-model="token.id" type="number" />
     <button @click="registerProperty()">Register property</button>
-    <p />
-    
-    <p />
-    <button @click="cancelAuction(1)">Cancel Auction</button>
-    <p />
     <button @click="getAuction(1)">Get Auction</button>
     <p>{{auctionData}}</p>
-    <p />
     <button @click="bid(2,1.1)">BID</button>
-    <p />
     <button @click="getTokensOfUser()">getTokensOfUser</button>
     <ModalPropertyBidder button-name="Create auction" :handle-click="sellProperty">
       <input v-model="token.id" type="number" placeholder="Type a value e.g. 1" />
