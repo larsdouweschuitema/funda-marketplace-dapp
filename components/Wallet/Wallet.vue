@@ -9,7 +9,7 @@
     <input v-model="token.ipfsMetadataUrl" placeholder="Url property json" />
     <UiButton @click="registerProperty()">Register property</UiButton>
     <UiButton @click="getAuction(1)">Get Auction</UiButton>
-    <UiButton @click="finalizeAuction(auctionGlobalId)">Finalize Auction</UiButton>
+    <UiButton @click="onFinalize">Finalize Auction</UiButton>
     <p>{{auctionData}}</p>
     <UiButton @click="getTokensOfUser()">getTokensOfUser</UiButton>
     <ModalPropertyBidder button-name="Create auction" :handle-click="sellProperty">
@@ -141,6 +141,9 @@ export default {
         this.auctionData = await this.decentralizedContract.methods
         .getAuctionById(auctionId)
         .call()
+    },
+    onFinalize() {
+      this.finalizeAuction(this.auctionGlobalId)
     }
   },
 }
