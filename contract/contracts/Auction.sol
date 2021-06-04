@@ -17,15 +17,8 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     Counters.Counter private _tokenIdTracker;
     Counters.Counter private _auctionIdTracker;
 
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-    bytes32 public constant PAUSER_ROLE = keccak256("PAUSER_ROLE");
-    bytes32 public constant DEED_ROLE = keccak256("DEED_ROLE");
-    
-
-    // Array with all auctions
     AuctionDto[] public auctions;
 
-    // Auction struct which holds all the required info
     struct AuctionDto {
         uint256 deadline;
         uint256 startPrice;
@@ -36,7 +29,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         bool finalized;
     }
     
-    // Bid struct to hold bidder and amount
     struct Bid {
         address payable from;
         uint256 amount;
@@ -49,21 +41,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
 
     constructor() ERC721("fundaCoin", "funda") {
         _setupRole(DEFAULT_ADMIN_ROLE, _msgSender());
-        _setupRole(MINTER_ROLE, _msgSender());
-        _setupRole(PAUSER_ROLE, _msgSender());
-        _setupRole(DEED_ROLE, _msgSender());
-    }
-
-    function addOwnerOfContract(address newOwner) public{
-        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Master: must have admin role!");
-        _setupRole(DEFAULT_ADMIN_ROLE, newOwner);
-        _setupRole(MINTER_ROLE, newOwner);
-        _setupRole(PAUSER_ROLE, newOwner);
-    }
-
-    function testContractOwner() public view returns (string memory){
-        require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "Master: must have admin role!");
-        return "You are contract owner!";
     }
 
     // Mapping from auction index to user bids
@@ -79,32 +56,11 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         return ownedTokens;
     }
 
-    /**
-    * @dev Gets the bid counts of a given auction
-    * @param _auctionId uint ID of the auction
-    */
-    function getBidsCount(uint _auctionId) public view returns(uint) {
-        return auctionBids[_auctionId].length;
-    }
-
-    /**
-    * @dev Gets an array of owned auctions
-    * @param _owner address of the auction owner
-    */
     function getAuctionsOf(address _owner) public view returns(uint[] memory) {
         uint[] memory ownedAuctions = auctionOwner[_owner];
         return ownedAuctions;
     }
 
-    function getAuctions() public view returns(AuctionDto[] memory){
-        return auctions;
-    }
-
-    /**
-    * @dev Gets an array of owned auctions
-    * @param _auctionId uint of the auction owner
-    * @return amount uint256, address of last bidder
-    */
     function getCurrentBid(uint _auctionId) public view returns(uint256, address) {
         uint bidsLength = auctionBids[_auctionId].length;
         // if there are bids refund the last bid
@@ -113,15 +69,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
             return (lastBid.amount, lastBid.from);
         }
         return (uint256(0), address(0));
-    }
-
-    /**
-    * @dev Gets the total number of auctions owned by an address
-    * @param _owner address of the owner
-    * @return uint total number of auctions
-    */
-    function getAuctionsCountOfOwner(address _owner) public view returns(uint) {
-        return auctionOwner[_owner].length;
     }
 
     function getAuctionById(uint _auctionId) public view returns(
@@ -145,11 +92,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
     }
     
     function createAuction(uint256 _propertyId, uint256 _startPrice, uint _deadline) public virtual returns(bool) {
-        // address payable user = payable(msg.sender);
-        // address auctionContractAddress = address(this);
-        // from, to, id
-        // safeTransferFrom(user, auctionContractAddress, _propertyId);
-
         string memory _tokenURI = tokenURI(_propertyId);
 
         uint auctionId = _auctionIdTracker.current();
@@ -298,7 +240,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
 
     //mint
     function registerKadasterProperty(address to, string memory tokenURI_, uint256 tokenId) public virtual {
-        require(hasRole(MINTER_ROLE, _msgSender()), "Master: must have minter role to mint");
         require(!_exists(tokenId), "Master: TokenId already existent");
 
         _tokenIdTracker.increment();
@@ -312,16 +253,6 @@ contract Auction is Context, AccessControlEnumerable, ERC721Enumerable, ERC721Bu
         // return uint256 is you wish to return a BigNumber
         uint256 numberOfMintedTokens = _tokenIdTracker.current();
         return numberOfMintedTokens.toString();
-    }
-
-    function pause() public virtual {
-        require(hasRole(PAUSER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have pauser role to pause");
-        _pause();
-    }
-
-    function unpause() public virtual {
-        require(hasRole(PAUSER_ROLE, _msgSender()), "ERC721PresetMinterPauserAutoId: must have pauser role to unpause");
-        _unpause();
     }
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId) internal virtual override(ERC721, ERC721Enumerable, ERC721Pausable) {
